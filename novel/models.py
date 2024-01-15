@@ -8,7 +8,7 @@ from django.db import models
 class BookCategory(models.Model):
     work_direction = models.IntegerField(null=True)
     # name of genre
-    name = models.CharField(null=True)
+    name = models.CharField(null=True, max_length=50)
     sort = models.IntegerField()
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -87,6 +87,7 @@ class BookComment(models.Model):
                                 on_delete=models.CASCADE,
                                 db_constraint=False)
     user_id = models.ForeignKey(AuthorInfo,
+                                on_delete=models.CASCADE,
                                 null=True,
                                 db_constraint=False)
     comment_content = models.CharField(max_length=512)
@@ -98,9 +99,11 @@ class BookComment(models.Model):
     next_comment_id = models.ForeignKey('self',
                                         on_delete=models.CASCADE,
                                         null=True,
-                                        db_constraint=False)
+                                        db_constraint=False,
+                                        related_name="next_comment")
 
     last_comment_id = models.ForeignKey('self',
                                         on_delete=models.CASCADE,
                                         null=True,
-                                        db_constraint=False)
+                                        db_constraint=False,
+                                        related_name="last_comment")
